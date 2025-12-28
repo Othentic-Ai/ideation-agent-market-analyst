@@ -4,11 +4,9 @@ Market Size Researcher & TAM/SAM/SOM Financial Analyst for the Ideation Pipeline
 
 ## Overview
 
-This agent is part of the [Ideation multi-agent pipeline](https://github.com/Othentic-Ai/ideation-claude). It is invoked by the orchestrator via webhook and communicates through Mem0.
+This agent is part of the [Ideation multi-agent pipeline](https://github.com/Othentic-Ai/ideation-claude). It runs as Claude Code triggered via webhook.
 
 **Role:** Gathers market size data and calculates realistic TAM, SAM, and SOM estimates
-
-**Tools:** WebSearch
 
 **Output:** Market sizing data, TAM/SAM/SOM calculations, investment thesis
 
@@ -23,7 +21,7 @@ This agent is part of the [Ideation multi-agent pipeline](https://github.com/Oth
                ▼
 ┌────────────────────────┐
 │  Market Analyst Agent  │  ◄── This repo
-│    (GitHub Actions)    │
+│     (Claude Code)      │
 └────────────┬───────────┘
                │
                ▼
@@ -33,23 +31,25 @@ This agent is part of the [Ideation multi-agent pipeline](https://github.com/Oth
 └─────────────────────────────┘
 ```
 
-## Installation
+## Repository Structure
 
-```bash
-pip install -e .
+```
+ideation-agent-market-analyst/
+├── CLAUDE.md        # Agent instructions (Claude Code reads this)
+├── README.md        # This file
+└── .github/
+    └── workflows/
+        └── run.yml  # Webhook trigger
 ```
 
-## Usage
+## How It Works
 
-### Via CLI
+1. **Triggered**: Orchestrator sends `repository_dispatch` webhook
+2. **Execution**: GitHub Actions runs Claude Code CLI
+3. **Instructions**: Claude Code reads `CLAUDE.md` for agent behavior
+4. **Output**: Results written to Mem0 for next agent
 
-```bash
-ideation-agent-market-analyst run --session-id <session-id>
-```
-
-### Via GitHub Actions (Webhook)
-
-This agent is triggered via `repository_dispatch`:
+## Trigger via Webhook
 
 ```bash
 curl -X POST \
@@ -58,20 +58,6 @@ curl -X POST \
   https://api.github.com/repos/Othentic-Ai/ideation-agent-market-analyst/dispatches \
   -d '{"event_type": "run", "client_payload": {"session_id": "abc123", "problem": "Your problem"}}'
 ```
-
-## Environment Variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `ANTHROPIC_API_KEY` | Yes | Claude API access |
-| `MEM0_API_KEY` | Yes | Mem0 cloud storage |
-
-## How It Works
-
-1. **Triggered**: Orchestrator sends `repository_dispatch` webhook
-2. **Context**: Agent reads session context from Mem0
-3. **Execution**: Claude Code runs the agent with the system prompt
-4. **Output**: Results written back to Mem0 for next agent
 
 ## Part of Ideation Pipeline
 
