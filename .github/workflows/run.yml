@@ -1,0 +1,37 @@
+name: Run Agent
+
+on:
+  repository_dispatch:
+    types: [run]
+  workflow_dispatch:
+    inputs:
+      session_id:
+        description: 'Session ID for the evaluation'
+        required: true
+        type: string
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: pip install -e .
+      - run: npm install -g @anthropic-ai/claude-code
+      - name: Run Agent via Claude Code
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MEM0_API_KEY: ${{ secrets.MEM0_API_KEY }}
+        run: |
+          SESSION_ID="${{ github.event.client_payload.session_id || github.event.inputs.session_id }}"
+          claude -p "You are the Market Analyst agent. Read src/ideation_agent_market_analyst/prompts/system.md.
+          Session ID: $SESSION_ID
+          1. Read context from Mem0 using session ID
+          2. Use WebSearch to research market size data
+          3. Calculate TAM/SAM/SOM
+          4. Save findings to Mem0"

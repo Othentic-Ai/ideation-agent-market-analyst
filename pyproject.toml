@@ -1,0 +1,23 @@
+[project]
+name = "ideation-agent-market-analyst"
+version = "0.1.0"
+description = "Market Size Researcher & TAM/SAM/SOM Financial Analyst for Ideation Pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Othentic" }]
+keywords = ["ideation", "claude", "agent", "market-sizing", "tam-sam-som"]
+dependencies = ["click>=8.1.0", "mem0ai>=0.1.0", "rich>=13.0.0", "pydantic>=2.0.0"]
+
+[project.scripts]
+ideation-agent-market-analyst = "ideation_agent_market_analyst.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/Othentic-Ai/ideation-agent-market-analyst"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
