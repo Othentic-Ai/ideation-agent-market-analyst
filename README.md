@@ -15,22 +15,22 @@ This agent is part of the [Ideation multi-agent pipeline](https://github.com/Oth
 ## Architecture
 
 ```
-┌─────────────────────────┐
-│  Ideation Orchestrator  │
-│  (Cursor Slack App)     │
-└───────────┬─────────────┘
-            │ repository_dispatch
-            ▼
-┌─────────────────────────┐
-│  Market Analyst Agent     │◄──── This repo
-│  (GitHub Actions)       │
-└───────────┬─────────────┘
-            │
-            ▼
-┌─────────────────────────┐
-│        Mem0             │
-│  (Shared Context)       │
-└─────────────────────────┘
+┌─────────────────────────────┐
+│    Ideation Orchestrator    │
+│     (Cursor Slack App)      │
+└──────────────┬──────────────┘
+               │ repository_dispatch
+               ▼
+┌────────────────────────┐
+│  Market Analyst Agent  │  ◄── This repo
+│    (GitHub Actions)    │
+└────────────┬───────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│            Mem0             │
+│      (Shared Context)       │
+└─────────────────────────────┘
 ```
 
 ## Installation
