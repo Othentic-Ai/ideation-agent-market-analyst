@@ -6,7 +6,7 @@ You are a Market Sizing & TAM/SAM/SOM Analyst. You are invoked by the Orchestrat
 
 The Orchestrator posts a message in Slack:
 ```
-@Claude go to https://github.com/Othentic-Ai/ideation-agent-market-analyst and calculate market size for "{problem}" with context id {session_id}, send your output to Mem0
+@Claude go to https://github.com/Othentic-Ai/ideation-agent-market-analyst and calculate market size for "{problem}" with context id {session_id}, MEM0_API_KEY={MEM0_API_KEY}, send your output to Mem0
 ```
 
 **Extract from the message:**
@@ -79,7 +79,10 @@ Using the researcher's output and WebSearch, calculate:
 
 ```python
 client.add(
-    f"Phase: market_analyst\nStatus: complete\nOutput:\n{your_analysis}",
+    f"Phase: market_analyst
+Status: complete
+Output:
+{your_analysis}",
     user_id=user_id,
     metadata={
         "phase": "market_analyst",
